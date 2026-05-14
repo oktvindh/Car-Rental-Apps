@@ -141,7 +141,7 @@ public class dashboardController implements Initializable {
     private TableColumn<carData, String> availableCars_col_model;
     
     @FXML
-private TableColumn<carData, String> availableCars_col_plateNumber;
+    private TableColumn<carData, String> availableCars_col_plateNumber;
 
     @FXML
     private TableColumn<carData, String> availableCars_col_price;
@@ -205,6 +205,9 @@ private TableColumn<carData, String> availableCars_col_plateNumber;
 
     @FXML
     private TableColumn<carData, String> rent_col_model;
+    
+    @FXML
+    private TableColumn<carData, String>  rent_col_plateNumber;
 
     @FXML
     private TableColumn<carData, String> rent_col_price;
@@ -342,7 +345,9 @@ private TableColumn<carData, String> availableCars_col_plateNumber;
                     || availableCars_model.getText().isEmpty()
                     || availableCars_status.getSelectionModel().getSelectedItem() == null
                     || availableCars_price.getText().isEmpty()
-                    || getData.path == null || getData.path == "") {
+                    || getData.path == null || getData.path == ""
+                    || availableCars_plateNumber.getText().isEmpty()
+                    ) {
                 alert = new Alert(AlertType.ERROR);
                 alert.setTitle("Error Message");
                 alert.setHeaderText(null);
@@ -389,12 +394,13 @@ private TableColumn<carData, String> availableCars_col_plateNumber;
         String uri = getData.path;
         uri = uri.replace("\\", "\\\\");
 
-        String sql = "UPDATE car SET brand = '" + availableCars_brand.getText() + "', model = '"
-                + availableCars_model.getText() + "', status ='"
-                + availableCars_status.getSelectionModel().getSelectedItem() + "', price = '"
-                + "', plate_number = '" + availableCars_plateNumber.getText() 
-                + availableCars_price.getText() + "', image = '" + uri
-                + "' WHERE car_id = '" + availableCars_carId.getText() + "'";
+        String sql = "UPDATE car SET brand = '" + availableCars_brand.getText()
+                    + "', model = '" + availableCars_model.getText()
+                    + "', status = '" + availableCars_status.getSelectionModel().getSelectedItem()
+                    + "', price = '" + availableCars_price.getText()
+                    + "', plate_number = '" + availableCars_plateNumber.getText()
+                    + "', image = '" + uri
+                    + "' WHERE car_id = '" + availableCars_carId.getText() + "'";
 
         connect = database.connectDb();
 
@@ -406,7 +412,9 @@ private TableColumn<carData, String> availableCars_col_plateNumber;
                     || availableCars_model.getText().isEmpty()
                     || availableCars_status.getSelectionModel().getSelectedItem() == null
                     || availableCars_price.getText().isEmpty()
-                    || getData.path == null || getData.path == "") {
+                    || getData.path == null || getData.path == ""
+                    || availableCars_plateNumber.getText().isEmpty()
+                    ) {
                 alert = new Alert(AlertType.ERROR);
                 alert.setTitle("Error Message");
                 alert.setHeaderText(null);
@@ -453,7 +461,9 @@ private TableColumn<carData, String> availableCars_col_plateNumber;
                     || availableCars_model.getText().isEmpty()
                     || availableCars_status.getSelectionModel().getSelectedItem() == null
                     || availableCars_price.getText().isEmpty()
-                    || getData.path == null || getData.path == "") {
+                    || getData.path == null || getData.path == ""
+                    || availableCars_plateNumber.getText().isEmpty()
+                    ) {
                 alert = new Alert(AlertType.ERROR);
                 alert.setTitle("Error Message");
                 alert.setHeaderText(null);
@@ -606,7 +616,10 @@ private TableColumn<carData, String> availableCars_col_plateNumber;
                     return true;
                 } else if (predicateCarData.getStatus().toLowerCase().contains(searchKey)) {
                     return true;
-                } else {
+                } else if (predicateCarData.getPlateNumber().toLowerCase().contains(searchKey)) {
+                    return true;
+                }
+                else {
                     return false;
                 }
             });
@@ -630,6 +643,7 @@ private TableColumn<carData, String> availableCars_col_plateNumber;
         availableCars_carId.setText(String.valueOf(carD.getCarId()));
         availableCars_brand.setText(carD.getBrand());
         availableCars_model.setText(carD.getModel());
+        availableCars_plateNumber.setText(carD.getPlateNumber());
         availableCars_price.setText(String.valueOf(carD.getPrice()));
 
         getData.path = carD.getImage();
@@ -867,7 +881,7 @@ private TableColumn<carData, String> availableCars_col_plateNumber;
         
     }
 
-    private String[] genderList = {"Male", "Female", "Others"};
+    private String[] genderList = {"Male", "Female"};
 
     public void rentCarGender() {
 
@@ -909,66 +923,49 @@ private TableColumn<carData, String> availableCars_col_plateNumber;
 
     }
 
-    public void rentCarBrand() {
+   public void rentCarBrand() { 
+       String sql = "SELECT * FROM car WHERE car_id = '" + rent_carId.getSelectionModel().getSelectedItem() + "'"; 
+       connect = database.connectDb(); 
+       try { 
+            prepare = connect.prepareStatement(sql); 
+            result = prepare.executeQuery(); 
+            
+            ObservableList listData = FXCollections.observableArrayList(); 
+            while (result.next()) { 
+               listData.add(result.getString("brand")); 
+            } 
+            rent_brand.setItems(listData); rentCarModel(); 
+       } catch (Exception e) { 
+           e.printStackTrace(); 
+       } 
+   }
 
-        String sql = "SELECT * FROM car WHERE car_id = '"
-                + rent_carId.getSelectionModel().getSelectedItem() + "'";
-
-        connect = database.connectDb();
-
-        try {
-            prepare = connect.prepareStatement(sql);
-            result = prepare.executeQuery();
-
-            ObservableList listData = FXCollections.observableArrayList();
-
-            while (result.next()) {
-                listData.add(result.getString("brand"));
-            }
-
-            rent_brand.setItems(listData);
-
-            rentCarModel();
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
+    public void rentCarModel() { 
+        String sql = "SELECT * FROM car WHERE brand = '" + rent_brand.getSelectionModel().getSelectedItem() + "'"; 
+        connect = database.connectDb(); 
+        try { 
+            prepare = connect.prepareStatement(sql); 
+            result = prepare.executeQuery(); 
+            
+            ObservableList listData = FXCollections.observableArrayList(); 
+            while (result.next()) { 
+                listData.add(result.getString("model")); 
+            } 
+            rent_model.setItems(listData); 
+        } catch (Exception e) { 
+            e.printStackTrace(); 
+        } 
     }
-
-    public void rentCarModel() {
-
-        String sql = "SELECT * FROM car WHERE brand = '"
-                + rent_brand.getSelectionModel().getSelectedItem() + "'";
-
-        connect = database.connectDb();
-
-        try {
-            prepare = connect.prepareStatement(sql);
-            result = prepare.executeQuery();
-
-            ObservableList listData = FXCollections.observableArrayList();
-
-            while (result.next()) {
-                listData.add(result.getString("model"));
-            }
-
-            rent_model.setItems(listData);
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-    }
-
+    
     private ObservableList<carData> rentCarList;
-
     public void rentCarShowListData() {
         rentCarList = rentCarListData();
 
         rent_col_carId.setCellValueFactory(new PropertyValueFactory<>("carId"));
         rent_col_brand.setCellValueFactory(new PropertyValueFactory<>("brand"));
         rent_col_model.setCellValueFactory(new PropertyValueFactory<>("model"));
+        rent_col_plateNumber.setCellValueFactory(new PropertyValueFactory<>("plateNumber"));
+
         rent_col_price.setCellValueFactory(new PropertyValueFactory<>("price"));
         rent_col_status.setCellValueFactory(new PropertyValueFactory<>("status"));
 

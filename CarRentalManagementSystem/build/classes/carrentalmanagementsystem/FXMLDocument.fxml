@@ -9,14 +9,13 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.text.Font?>
 
-
-<StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="450.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="carrentalmanagementsystem.FXMLDocumentController">
+<StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="450.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="carrentalmanagementsystem.FXMLDocumentController">
    <children>
       <AnchorPane fx:id="main_form" prefHeight="200.0" prefWidth="200.0">
          <children>
             <AnchorPane prefHeight="450.0" prefWidth="350.0" styleClass="left-form" stylesheets="@loginDesign.css">
                <children>
-                  <FontAwesomeIcon fill="WHITE" glyphName="CAR" layoutX="106.0" layoutY="207.0" size="10em" />
+                  <FontAwesomeIcon fill="WHITE" glyphName="CAR" layoutX="106.0" layoutY="207.0" size="10em" text="" />
                   <Label layoutX="35.0" layoutY="225.0" text="Car Rental Management System" textFill="WHITE">
                      <font>
                         <Font name="Tahoma" size="20.0" />

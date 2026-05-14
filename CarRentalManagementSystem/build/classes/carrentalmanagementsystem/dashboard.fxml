@@ -20,7 +20,7 @@
 <?import javafx.scene.shape.Line?>
 <?import javafx.scene.text.Font?>
 
-<StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1100.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="carrentalmanagementsystem.dashboardController">
+<StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1100.0" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="carrentalmanagementsystem.dashboardController">
    <children>
       <AnchorPane fx:id="main_form" prefHeight="200.0" prefWidth="200.0">
          <children>
@@ -62,7 +62,7 @@
                                     <Font name="Tahoma" size="17.0" />
                                  </font>
                               </Label>
-                              <Label fx:id="username" alignment="CENTER" layoutX="8.0" layoutY="140.0" prefHeight="23.0" prefWidth="189.0" text="MarcoMan" textFill="WHITE">
+                              <Label fx:id="username" alignment="CENTER" layoutX="8.0" layoutY="140.0" prefHeight="23.0" prefWidth="189.0" textFill="WHITE">
                                  <font>
                                     <Font name="Arial Bold" size="20.0" />
                                  </font>
@@ -119,7 +119,7 @@
                                  <children>
                                     <AnchorPane layoutX="14.0" layoutY="10.0" prefHeight="126.0" prefWidth="242.0" styleClass="nav-form" stylesheets="@dashboardDesign.css">
                                        <children>
-                                          <FontAwesomeIcon fill="WHITE" glyphName="CAR" layoutX="14.0" layoutY="80.0" size="4em" />
+                                          <FontAwesomeIcon fill="WHITE" glyphName="CAR" layoutX="14.0" layoutY="80.0" size="4em" text="" />
                                           <Label layoutX="75.0" layoutY="87.0" text="Available Cars" textFill="WHITE">
                                              <font>
                                                 <Font name="Tahoma" size="15.0" />
@@ -388,6 +388,9 @@
                                         <TableColumn fx:id="rent_col_carId" prefWidth="136.0" text="Car ID" />
                                         <TableColumn fx:id="rent_col_brand" prefWidth="226.0" text="Brand" />
                                           <TableColumn fx:id="rent_col_model" prefWidth="193.0" text="Model" />
+                                          <TableColumn fx:id="rent_col_plateNumber" prefWidth="193.0" text="Plate Number" />
+
+                                          
                                           <TableColumn fx:id="rent_col_price" prefWidth="145.0" text="Price (Rp)" />
                                           <TableColumn fx:id="rent_col_status" prefWidth="139.0" text="Status" />
                                       </columns>
