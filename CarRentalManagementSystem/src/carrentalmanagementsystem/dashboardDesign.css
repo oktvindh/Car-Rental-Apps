@@ -1,156 +1,203 @@
+/* --- TEMA MODERN: INDIGO & SLATE --- */
 
-
-.top-form{
-    -fx-background-color:#fff;
-    -fx-border-color:#000;
-    -fx-border-width:.4px .4px .2px .4px;
-}
-
-.semi-top-form{
-    -fx-background-color:#efefef;
-    -fx-border-color:#000;
-    -fx-border-width:.2px .4px .4px .4px;
+.top-form {
+  -fx-background-color: #ffffff;
+  -fx-border-color: #e2e8f0;
+  -fx-border-width: 0 0 1px 0; /* Hanya border bawah agar lebih bersih */
 }
 
-.close{
-    -fx-background-color:transparent;
-    -fx-cursor:hand;
-}
-.close:hover{
-    -fx-background-color:#ff3852;
+.semi-top-form {
+  -fx-background-color: #f8fafc;
+  -fx-border-color: #e2e8f0;
+  -fx-border-width: 0 0 1px 0;
 }
 
-.minimize{
-    -fx-background-color:transparent;
-    -fx-cursor:hand;
+/* --- TOMBOL WINDOW KONTROL --- */
+.close {
+  -fx-background-color: transparent;
+  -fx-cursor: hand;
 }
-.minimize:hover{
-    -fx-background-color:#ddd;
-}
-
-.nav-form{
-    -fx-background-color:linear-gradient(to bottom right, #444750, #696d72);
+.close:hover {
+  -fx-background-color: #ef4444; /* Merah modern */
+  -fx-background-radius: 4px;
 }
 
-.shadow{
-    -fx-effect:dropshadow(three-pass-box, rgba(0,0,0,0.5), 6,0,0,0);
+.minimize {
+  -fx-background-color: transparent;
+  -fx-cursor: hand;
+}
+.minimize:hover {
+  -fx-background-color: #e2e8f0; /* Abu-abu halus saat disentuh */
+  -fx-background-radius: 4px;
 }
 
-.nav-btn{
-    -fx-background-color:transparent;
-    -fx-text-fill:#fff;
-    -fx-font-size:14px;
-    -fx-font-family:"Arial";
-    -fx-cursor:hand;
-    -fx-alignment:CENTER-LEFT;
+/* --- SIDEBAR & NAVIGASI --- */
+.nav-form {
+  -fx-background-color: #1e293b; /* Biru dongker/Slate pekat yang elegan */
 }
 
-.logout-btn{
-    -fx-background-color:#862727;
-    -fx-background-radius:20px;
-    -fx-cursor:hand;
-}
-.logout-btn:hover{
-    -fx-background-color:#ae3f3f;
-}
-
-.white-bg{
-    -fx-background-color:#fff;
-    -fx-background-radius:8px;
+.shadow {
+  -fx-effect: dropshadow(
+    three-pass-box,
+    rgba(0, 0, 0, 0.08),
+    15,
+    0,
+    0,
+    4
+  ); /* Bayangan sangat halus */
 }
 
-.textfield{
-    -fx-background-color:linear-gradient(to bottom, #efefef, #eee);
-    -fx-background-radius:3px;
-    -fx-border-color:linear-gradient(to bottom right, #444750, #696d72);
-    -fx-border-width:.5px;
-    -fx-border-radius:3px;
+.nav-btn {
+  -fx-background-color: transparent;
+  -fx-text-fill: #cbd5e1; /* Teks abu-abu terang */
+  -fx-font-size: 14px;
+  -fx-font-family: "Segoe UI", "Arial", sans-serif; /* Font modern bawaan OS */
+  -fx-cursor: hand;
+  -fx-alignment: CENTER-LEFT;
+  -fx-padding: 10px 20px;
 }
-.textfield:focused{
-    -fx-background-color:#fff;
-    -fx-border-width:1.5px;
-}
-
-.add-btn{
-    -fx-background-color:#39587f;
-    -fx-background-radius:5px;
-    -fx-cursor:hand;
-    -fx-font-size:14px;
-    -fx-font-family:"Arial";
-    -fx-text-fill:#fff;
-}
-.add-btn:hover{
-    -fx-background-color:#4171ab;
+.nav-btn:hover {
+  -fx-background-color: #334155; /* Warna agak terang saat kursor mendekat */
+  -fx-text-fill: #ffffff;
+  -fx-background-radius: 6px;
 }
 
-.update-btn{
-    -fx-background-color:#326e54;
-    -fx-background-radius:5px;
-    -fx-cursor:hand;
-    -fx-font-size:14px;
-    -fx-font-family:"Arial";
-    -fx-text-fill:#fff;
+.logout-btn {
+  -fx-background-color: #ef4444;
+  -fx-background-radius: 8px;
+  -fx-cursor: hand;
+  -fx-text-fill: #ffffff;
+  -fx-font-weight: bold;
 }
-.update-btn:hover{
-    -fx-background-color:#409d75;
-}
-
-.clear-btn{
-    -fx-background-color:#78296b;
-    -fx-background-radius:5px;
-    -fx-cursor:hand;
-    -fx-font-size:14px;
-    -fx-font-family:"Arial";
-    -fx-text-fill:#fff;
-}
-.clear-btn:hover{
-    -fx-background-color:#a13190;
+.logout-btn:hover {
+  -fx-background-color: #dc2626;
 }
 
-.delete-btn{
-    -fx-background-color:#7f2636;
-    -fx-background-radius:5px;
-    -fx-cursor:hand;
-    -fx-font-size:14px;
-    -fx-font-family:"Arial";
-    -fx-text-fill:#fff;
-}
-.delete-btn:hover{
-    -fx-background-color:#b13048;
+/* --- AREA KONTEN (CARD) --- */
+.white-bg {
+  -fx-background-color: #ffffff;
+  -fx-background-radius: 12px;
+  -fx-border-color: #f1f5f9;
+  -fx-border-width: 1px;
+  -fx-border-radius: 12px;
 }
 
-.search{
-    -fx-background-color:#fff;
-    -fx-border-color:linear-gradient(to bottom right, #444750, #696d72);
-    -fx-border-width:1px;
-    -fx-font-size:13px;
-    -fx-padding:0px 0px 0px 28px;
-    -fx-border-radius:8px;
+/* --- KOLOM INPUT (TEXTFIELD) --- */
+.textfield {
+  -fx-background-color: #f8fafc;
+  -fx-background-radius: 6px;
+  -fx-border-color: #cbd5e1;
+  -fx-border-width: 1px;
+  -fx-border-radius: 6px;
+  -fx-padding: 6px 10px;
+  -fx-text-fill: #334155;
 }
-.search:focused{
-    -fx-border-width:2px;
+.textfield:focused {
+  -fx-background-color: #ffffff;
+  -fx-border-color: #6366f1; /* Efek menyala biru indigo saat diketik */
+  -fx-border-width: 2px;
 }
 
-.table-view{
-    -fx-background-color:transparent;
-    -fx-border-color:linear-gradient(to bottom right, #444750, #696d72);
-    -fx-border-width:2px;
-    -fx-border-radius:8px;
-    -fx-padding:0px;
+/* --- TOMBOL AKSI (CRUD) --- */
+.add-btn {
+  -fx-background-color: #6366f1; /* Indigo (Biru Modern) */
+  -fx-background-radius: 6px;
+  -fx-cursor: hand;
+  -fx-font-size: 14px;
+  -fx-font-family: "Segoe UI", "Arial", sans-serif;
+  -fx-text-fill: #ffffff;
+  -fx-font-weight: bold;
 }
-.table-view .table-column{
-    -fx-alignment: CENTER;
+.add-btn:hover {
+  -fx-background-color: #4f46e5;
 }
-.table-view .column-header-background{
-    -fx-background-color:linear-gradient(to bottom right, #444750, #696d72);
-    -fx-background-radius:8px 8px 0px 0px;
-    -fx-background-insets: 0 0 0 0;
+
+.update-btn {
+  -fx-background-color: #10b981; /* Emerald (Hijau Segar) */
+  -fx-background-radius: 6px;
+  -fx-cursor: hand;
+  -fx-font-size: 14px;
+  -fx-font-family: "Segoe UI", "Arial", sans-serif;
+  -fx-text-fill: #ffffff;
+  -fx-font-weight: bold;
 }
-.table-view .column-header, .filter{
-    -fx-background-color:transparent;
-    -fx-size:40px;
+.update-btn:hover {
+  -fx-background-color: #059669;
 }
-.table-view .column-header .label{
-    -fx-text-fill:#fff;
-    -fx-font-family:"Arial";
+
+.clear-btn {
+  -fx-background-color: #8b5cf6; /* Violet */
+  -fx-background-radius: 6px;
+  -fx-cursor: hand;
+  -fx-font-size: 14px;
+  -fx-font-family: "Segoe UI", "Arial", sans-serif;
+  -fx-text-fill: #ffffff;
+  -fx-font-weight: bold;
+}
+.clear-btn:hover {
+  -fx-background-color: #7c3aed;
+}
+
+.delete-btn {
+  -fx-background-color: #f43f5e; /* Rose (Merah Lembut) */
+  -fx-background-radius: 6px;
+  -fx-cursor: hand;
+  -fx-font-size: 14px;
+  -fx-font-family: "Segoe UI", "Arial", sans-serif;
+  -fx-text-fill: #ffffff;
+  -fx-font-weight: bold;
+}
+.delete-btn:hover {
+  -fx-background-color: #e11d48;
+}
+
+/* --- KOLOM PENCARIAN --- */
+.search {
+  -fx-background-color: #f8fafc;
+  -fx-border-color: #cbd5e1;
+  -fx-border-width: 1px;
+  -fx-font-size: 13px;
+  -fx-padding: 4px 10px 4px 28px;
+  -fx-border-radius: 20px; /* Bentuk pil (bundar di ujung) */
+  -fx-background-radius: 20px;
+}
+.search:focused {
+  -fx-background-color: #ffffff;
+  -fx-border-color: #6366f1;
+  -fx-border-width: 2px;
+}
+
+/* --- TABEL TAMPILAN MODERN --- */
+.table-view {
+  -fx-background-color: transparent;
+  -fx-border-color: #e2e8f0;
+  -fx-border-width: 1px;
+  -fx-border-radius: 8px;
+  -fx-padding: 0px;
+}
+.table-view .table-column {
+  -fx-alignment: CENTER;
+}
+.table-view .column-header-background {
+  -fx-background-color: #f1f5f9; /* Abu-abu sangat terang */
+  -fx-background-radius: 8px 8px 0px 0px;
+  -fx-background-insets: 0;
+  -fx-border-color: #e2e8f0;
+  -fx-border-width: 0 0 1px 0;
+}
+.table-view .column-header,
+.filter {
+  -fx-background-color: transparent;
+  -fx-size: 45px; /* Sedikit dilebarkan agar lebih lega */
+}
+.table-view .column-header .label {
+  -fx-text-fill: #475569; /* Teks gelap elegan */
+  -fx-font-family: "Segoe UI", "Arial", sans-serif;
+  -fx-font-weight: bold;
+}
+
+/* Efek saat baris tabel dipilih */
+.table-view .table-row-cell:selected {
+  -fx-background-color: #e0e7ff; /* Biru sangat muda */
+  -fx-text-fill: #1e293b;
 }

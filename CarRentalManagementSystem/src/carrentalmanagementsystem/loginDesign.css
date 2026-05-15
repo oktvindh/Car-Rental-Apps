@@ -1,46 +1,72 @@
-
-
-.left-form{
-    -fx-background-color:linear-gradient(to bottom right, #444750, #696d72);
-    -fx-border-color:#000;
-    -fx-border-width:.4px 0px .4px .4px;
-}
-.right-form{
-    -fx-background-color:#fff;
-    -fx-border-color:#000;
-    -fx-border-width:.4px .4px .4px 0px;
+/* --- Bagian Kiri (Sisi Branding/Gambar) --- */
+.left-form {
+  /* Menggunakan gradien biru gelap kehitaman yang lebih elegan (Slate/Navy) */
+  -fx-background-color: linear-gradient(to bottom right, #1e293b, #0f172a);
+  /* Menghilangkan border hitam kaku */
+  -fx-border-width: 0px;
 }
 
-.close{
-    -fx-background-color:transparent;
-    -fx-cursor:hand;
-}
-.close:hover{
-    -fx-background-color:#ff3852;
+/* --- Bagian Kanan (Sisi Form Login) --- */
+.right-form {
+  -fx-background-color: #ffffff;
+  -fx-border-width: 0px;
 }
 
-.textfield{
-    -fx-background-color:linear-gradient(to bottom, #efefef, #eee);
-    -fx-background-radius:4px;
-    -fx-border-color:#000;
-    -fx-border-radius:4px;
-    -fx-border-width:.4px;
-    -fx-font-size:13px;
+/* --- Tombol Close (X) --- */
+.close {
+  -fx-background-color: transparent;
+  -fx-cursor: hand;
+  -fx-background-radius: 4px;
 }
-.textfield:focused{
-    -fx-background-color:#fff;
-    -fx-border-color:linear-gradient(to bottom right, #444750, #696d72);
-    -fx-border-width:1.4px;
+.close:hover {
+  -fx-background-color: #ef4444; /* Warna merah modern (Tailwind Red 500) */
+  -fx-text-fill: white; /* Pastikan icon silang berubah jadi putih jika berupa text */
 }
 
-.login-btn{
-    -fx-background-color:linear-gradient(to top, #21365d, #294d90);
-    -fx-background-radius:15px;
-    -fx-text-fill:#fff;
-    -fx-font-size:14px;
-    -fx-font-family:"Arial";
-    -fx-cursor:hand;
+/* --- Kolom Isian (Username & Password) --- */
+.textfield {
+  -fx-background-color: #f8fafc; /* Warna abu-abu sangat terang */
+  -fx-background-radius: 6px;
+  -fx-border-color: #e2e8f0; /* Border abu-abu lembut */
+  -fx-border-radius: 6px;
+  -fx-border-width: 1.5px;
+  -fx-font-size: 14px;
+  -fx-padding: 8px 12px; /* Memberi ruang agar teks tidak terlalu menempel ke pinggir */
+  -fx-text-fill: #334155;
 }
-.login-btn:hover{
-    -fx-background-color:linear-gradient(to top, #284a86, #446ebb);
+
+/* Efek saat kolom di-klik (Focus) */
+.textfield:focused {
+  -fx-background-color: #ffffff;
+  -fx-border-color: #3b82f6; /* Berubah jadi biru modern saat diklik */
+  -fx-border-width: 1.5px;
+  /* Memberikan efek cahaya/glow biru tipis */
+  -fx-effect: dropshadow(three-pass-box, rgba(59, 130, 246, 0.2), 6, 0, 0, 0);
+}
+
+/* --- Tombol Login --- */
+.login-btn {
+  -fx-background-color: #3b82f6; /* Warna biru solid kekinian (Primary Blue) */
+  -fx-background-radius: 6px;
+  -fx-text-fill: #ffffff;
+  -fx-font-size: 14px;
+  -fx-font-family:
+    "Segoe UI", "Helvetica Neue", sans-serif; /* Font modern bawaan sistem */
+  -fx-font-weight: bold;
+  -fx-cursor: hand;
+  -fx-padding: 8px 15px;
+}
+
+/* Efek saat kursor berada di atas tombol */
+.login-btn:hover {
+  -fx-background-color: #2563eb; /* Warna biru sedikit lebih gelap */
+  /* Memberikan efek bayangan seolah tombol sedikit terangkat */
+  -fx-effect: dropshadow(three-pass-box, rgba(37, 99, 235, 0.4), 8, 0, 0, 3);
+}
+
+/* Efek saat tombol ditekan (Click) */
+.login-btn:pressed {
+  -fx-background-color: #1d4ed8; /* Biru yang lebih tua lagi */
+  -fx-effect: none; /* Hilangkan bayangan seolah tombol ditekan ke dalam */
+  -fx-translate-y: 1px; /* Efek visual tombol turun 1 pixel */
 }
