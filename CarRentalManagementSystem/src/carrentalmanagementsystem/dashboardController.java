@@ -14,6 +14,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 import java.util.ResourceBundle;
+import java.util.HashMap;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
@@ -46,6 +47,15 @@ import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import net.sf.jasperreports.engine.*;
+import net.sf.jasperreports.view.JasperViewer;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.JasperReport;
+
+import net.sf.jasperreports.engine.util.JRLoader;
+
+
 
 
 public class dashboardController implements Initializable {
@@ -70,6 +80,9 @@ public class dashboardController implements Initializable {
 
     @FXML
     private Button availableCars_btn;
+    
+    @FXML
+    private Button customerCars_btn;
 
     @FXML
     private Button rentCar_btn;
@@ -151,6 +164,39 @@ public class dashboardController implements Initializable {
 
     @FXML
     private TextField availableCars_search;
+    
+    @FXML
+    private AnchorPane customerCars_form;
+    
+    @FXML
+    private TableView<customerData> customer_tableView;
+
+    @FXML
+    private TableColumn<customerData, Integer> customer_col_customerId;
+
+    @FXML
+    private TableColumn<customerData, String> customer_col_firstName;
+
+    @FXML
+    private TableColumn<customerData, String> customer_col_lastName;
+
+    @FXML
+    private TableColumn<customerData, String> customer_col_gender;
+
+    @FXML
+    private TableColumn<customerData, Integer> customer_col_carId;
+
+    @FXML
+    private TableColumn<customerData, String> customer_col_brand;
+
+    @FXML
+    private TableColumn<customerData, String> customer_col_model;
+
+    @FXML
+    private TableColumn<customerData, Double> customer_col_total;
+
+    @FXML
+    private TextField customer_search;
 
     @FXML
     private AnchorPane rent_form;
@@ -655,6 +701,124 @@ public class dashboardController implements Initializable {
 
     }
     
+    public ObservableList<customerData> customerListData() {
+
+        ObservableList<customerData> listData
+                = FXCollections.observableArrayList();
+
+        String sql = "SELECT * FROM customer";
+
+        connect = database.connectDb();
+
+        try {
+
+            prepare = connect.prepareStatement(sql);
+            result = prepare.executeQuery();
+
+            customerData custData;
+
+            while (result.next()) {
+
+                custData = new customerData(
+                        result.getInt("customer_id"),
+                        result.getString("firstName"),
+                        result.getString("lastName"),
+                        result.getString("gender"),
+                        result.getInt("car_id"),
+                        result.getString("brand"),
+                        result.getString("model"),
+                        result.getDouble("total")
+                );
+
+                listData.add(custData);
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return listData;
+    }
+    
+    private ObservableList<customerData> customerList;
+
+    public void customerShowListData() {
+
+        customerList = customerListData();
+
+        customer_col_customerId.setCellValueFactory(
+                new PropertyValueFactory<>("customerId"));
+
+        customer_col_firstName.setCellValueFactory(
+                new PropertyValueFactory<>("firstName"));
+
+        customer_col_lastName.setCellValueFactory(
+                new PropertyValueFactory<>("lastName"));
+
+        customer_col_gender.setCellValueFactory(
+                new PropertyValueFactory<>("gender"));
+
+        customer_col_carId.setCellValueFactory(
+                new PropertyValueFactory<>("carId"));
+
+        customer_col_brand.setCellValueFactory(
+                new PropertyValueFactory<>("brand"));
+
+        customer_col_model.setCellValueFactory(
+                new PropertyValueFactory<>("model"));
+
+        customer_col_total.setCellValueFactory(
+                new PropertyValueFactory<>("total"));
+
+        customer_tableView.setItems(customerList);
+    }
+    
+    public void customerSearch() {
+
+        FilteredList<customerData> filter =
+                new FilteredList<>(customerList, e -> true);
+
+        customer_search.textProperty().addListener((observable, oldValue, newValue) -> {
+
+            filter.setPredicate(predicateCustomer -> {
+
+                if (newValue == null || newValue.isEmpty()) {
+                    return true;
+                }
+
+                String searchKey = newValue.toLowerCase();
+
+                if (predicateCustomer.getCustomerId().toString().contains(searchKey)) {
+                    return true;
+
+                } else if (predicateCustomer.getFirstName().toLowerCase().contains(searchKey)) {
+                    return true;
+
+                } else if (predicateCustomer.getLastName().toLowerCase().contains(searchKey)) {
+                    return true;
+
+                } else if (predicateCustomer.getBrand().toLowerCase().contains(searchKey)) {
+                    return true;
+
+                } else if (predicateCustomer.getModel().toLowerCase().contains(searchKey)) {
+                    return true;
+
+                } else {
+                    return false;
+                }
+
+            });
+
+        });
+
+        SortedList<customerData> sortList = new SortedList<>(filter);
+
+        sortList.comparatorProperty().bind(
+                customer_tableView.comparatorProperty());
+
+        customer_tableView.setItems(sortList);
+    }
+    
     public void rentPay(){
         rentCustomerId();
         
@@ -971,6 +1135,30 @@ public class dashboardController implements Initializable {
 
         rent_tableView.setItems(rentCarList);
     }
+    
+        @FXML
+    public void printCustomerReport() {
+
+        try {
+
+            Connection connect = database.connectDb();
+
+            JasperReport jr = (JasperReport) JRLoader.loadObject(
+                getClass().getResource("/carrentalmanagementsystem/report/customerReport.jasper")
+            );
+
+            JasperPrint jp = JasperFillManager.fillReport(
+                jr,
+                new HashMap<>(),
+                connect
+            );
+
+            JasperViewer.viewReport(jp, false);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 
     public void displayUsername() {
         String user = getData.username;
@@ -1030,10 +1218,12 @@ public class dashboardController implements Initializable {
         if (event.getSource() == home_btn) {
             home_form.setVisible(true);
             availableCars_form.setVisible(false);
+            customerCars_form.setVisible(false);
             rent_form.setVisible(false);
 
             home_btn.setStyle("-fx-background-color:linear-gradient(to bottom right, #686f86, #8e9296);");
             availableCars_btn.setStyle("-fx-background-color:transparent");
+            customerCars_btn.setStyle("-fx-background-color:transparent");
             rentCar_btn.setStyle("-fx-background-color:transparent");
 
             homeAvailableCars();
@@ -1045,10 +1235,12 @@ public class dashboardController implements Initializable {
         } else if (event.getSource() == availableCars_btn) {
             home_form.setVisible(false);
             availableCars_form.setVisible(true);
+            customerCars_form.setVisible(false);
             rent_form.setVisible(false);
 
             availableCars_btn.setStyle("-fx-background-color:linear-gradient(to bottom right, #686f86, #8e9296);");
             home_btn.setStyle("-fx-background-color:transparent");
+            customerCars_btn.setStyle("-fx-background-color:transparent");
             rentCar_btn.setStyle("-fx-background-color:transparent");
 
             // TO UPDATE YOUR TABLEVIEW ONCE YOU CLICK THE AVAILABLE CAR NAV BUTTON
@@ -1056,14 +1248,31 @@ public class dashboardController implements Initializable {
             availableCarStatusList();
             availableCarSearch();
 
+        } else if (event.getSource() == customerCars_btn) {
+            home_form.setVisible(false);
+            availableCars_form.setVisible(false);
+            customerCars_form.setVisible(true);
+            rent_form.setVisible(false);
+            
+            customerCars_btn.setStyle("-fx-background-color:linear-gradient(to bottom right, #686f86, #8e9296);");
+            home_btn.setStyle("-fx-background-color:transparent");
+            availableCars_btn.setStyle("-fx-background-color:transparent");
+            rentCar_btn.setStyle("-fx-background-color:transparent");
+            
+            customerShowListData();
+            customerSearch();
+        
+        
         } else if (event.getSource() == rentCar_btn) {
             home_form.setVisible(false);
             availableCars_form.setVisible(false);
+            customerCars_form.setVisible(false);
             rent_form.setVisible(true);
 
             rentCar_btn.setStyle("-fx-background-color:linear-gradient(to bottom right, #686f86, #8e9296);");
             home_btn.setStyle("-fx-background-color:transparent");
             availableCars_btn.setStyle("-fx-background-color:transparent");
+            customerCars_btn.setStyle("-fx-background-color:transparent");
 
             rentCarShowListData();
             rentCarCarId();
@@ -1105,6 +1314,9 @@ public class dashboardController implements Initializable {
         rentCarBrand();
         rentCarModel();
         rentCarGender();
+        
+        customerShowListData();
+        customerSearch();
 
     }
 

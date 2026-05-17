@@ -87,16 +87,27 @@
                                     <Font name="Tahoma" size="14.0" />
                                  </font>
                               </Label>
-                              <Button fx:id="availableCars_btn" layoutX="13.0" layoutY="260.0" mnemonicParsing="false" onAction="#switchForm" prefHeight="35.0" prefWidth="180.0" styleClass="nav-btn" stylesheets="@dashboardDesign.css" text="Available Cars">
+                              
+                                <Button fx:id="availableCars_btn" layoutX="13.0" layoutY="260.0" mnemonicParsing="false" onAction="#switchForm" prefHeight="35.0" prefWidth="180.0" styleClass="nav-btn" stylesheets="@dashboardDesign.css" text="Available Cars">
                                  <graphic>
                                     <FontAwesomeIcon fill="WHITE" glyphName="CHECK" size="1.3em" />
                                  </graphic>
                               </Button>
-                              <Button fx:id="rentCar_btn" layoutX="13.0" layoutY="295.0" mnemonicParsing="false" onAction="#switchForm" prefHeight="35.0" prefWidth="180.0" styleClass="nav-btn" stylesheets="@dashboardDesign.css" text="Rent Car">
+                              
+                              <Button fx:id="customerCars_btn" layoutX="13.0" layoutY="295.0" mnemonicParsing="false" onAction="#switchForm" prefHeight="35.0" prefWidth="180.0" styleClass="nav-btn" stylesheets="@dashboardDesign.css" text="Customers"> 
+                                 <graphic>
+                                    <FontAwesomeIcon fill="WHITE" glyphName="CHECK" size="1.3em" />
+                                 </graphic>
+                              </Button>
+                              
+                              <Button fx:id="rentCar_btn" layoutX="13.0" layoutY="330.0" mnemonicParsing="false" onAction="#switchForm" prefHeight="35.0" prefWidth="180.0" styleClass="nav-btn" stylesheets="@dashboardDesign.css" text="Rent Car">
                                  <graphic>
                                     <FontAwesomeIcon fill="WHITE" glyphName="CAR" size="1.3em" />
                                  </graphic>
                               </Button>
+                              
+                             
+                              
                            </children>
                            <styleClass>
                               <String fx:value="nav-form" />
@@ -292,7 +303,104 @@
                               </AnchorPane>
                            </children>
                         </AnchorPane>
-                        <AnchorPane fx:id="rent_form" layoutX="28.0" layoutY="48.0" prefHeight="555.0" prefWidth="896.0" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                        
+                        <AnchorPane fx:id="customerCars_form" layoutX="28.0" layoutY="48.0" prefHeight="555.0" prefWidth="896.0" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                           <children>
+                                <AnchorPane layoutX="14.0" layoutY="14.0" prefHeight="527.0" prefWidth="869.0" stylesheets="@dashboardDesign.css">
+
+                                    <styleClass>
+                                        <String fx:value="white-bg"/>
+                                        <String fx:value="shadow"/>
+                                    </styleClass>
+
+                                    <children>
+
+                                        <Label layoutX="20.0" layoutY="14.0" text="Customers">
+                                            <font>
+                                                <Font name="Arial Bold" size="30.0"/>
+                                            </font>
+                                        </Label>
+
+                                        <TextField fx:id="customer_search"
+                                                   layoutX="20.0"
+                                                   layoutY="60.0"
+                                                   prefHeight="30.0"
+                                                   prefWidth="260.0"
+                                                   promptText="Search..."
+                                                   onKeyTyped="#customerSearch"
+                                                   styleClass="search"
+                                                   stylesheets="@dashboardDesign.css"/>
+
+                                        <FontAwesomeIcon fill="#7c7c7c"
+                                                         glyphName="SEARCH"
+                                                         layoutX="27.0"
+                                                         layoutY="81.0"
+                                                         size="1.5em"/>
+                                        
+                                        <Button fx:id="customer_exportBtn"
+                                                    layoutX="700.0"
+                                                    layoutY="58.0"
+                                                    mnemonicParsing="false"
+                                                    onAction="#printCustomerReport"
+                                                    prefHeight="35.0"
+                                                    prefWidth="150.0"
+                                                    styleClass="add-btn"
+                                                    stylesheets="@dashboardDesign.css"
+                                                    text="Export PDF"/>
+
+                                        <TableView fx:id="customer_tableView"
+                                                   layoutX="20.0"
+                                                   layoutY="110.0"
+                                                   prefHeight="390.0"
+                                                   prefWidth="830.0">
+
+                                            <columns>
+
+                                                <TableColumn fx:id="customer_col_customerId"
+                                                             prefWidth="120.0"
+                                                             text="Customer ID"/>
+
+                                                <TableColumn fx:id="customer_col_firstName"
+                                                             prefWidth="120.0"
+                                                             text="First Name"/>
+
+                                                <TableColumn fx:id="customer_col_lastName"
+                                                             prefWidth="120.0"
+                                                             text="Last Name"/>
+
+                                                <TableColumn fx:id="customer_col_gender"
+                                                             prefWidth="90.0"
+                                                             text="Gender"/>
+
+                                                <TableColumn fx:id="customer_col_carId"
+                                                             prefWidth="80.0"
+                                                             text="Car ID"/>
+
+                                                <TableColumn fx:id="customer_col_brand"
+                                                             prefWidth="110.0"
+                                                             text="Brand"/>
+
+                                                <TableColumn fx:id="customer_col_model"
+                                                             prefWidth="110.0"
+                                                             text="Model"/>
+
+                                                <TableColumn fx:id="customer_col_total"
+                                                             prefWidth="110.0"
+                                                             text="Total"/>
+
+                                            </columns>
+
+                                        </TableView>
+
+                                    </children>
+
+                                </AnchorPane>
+                                
+                           </children>
+                        </AnchorPane>
+                        
+                        
+                        <AnchorPane fx:id="rent_form" layoutX="28.0" layoutY="48.0" prefHeight="558.0" prefWidth="896.0" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                            <children>
                               <AnchorPane layoutX="14.0" layoutY="14.0" prefHeight="208.0" prefWidth="869.0" stylesheets="@dashboardDesign.css">
                                  <styleClass>
@@ -300,24 +408,24 @@
                                     <String fx:value="shadow" />
                                  </styleClass>
                                  <children>
-                                    <Label layoutX="24.0" layoutY="26.0" text="Car ID:">
+                                    <Label layoutX="20.0" layoutY="28.0" text="Car ID:">
                                        <font>
                                           <Font name="Tahoma" size="14.0" />
                                        </font>
                                     </Label>
-                                    <ComboBox fx:id="rent_carId" layoutX="81.0" layoutY="23.0" onAction="#rentCarCarId" prefWidth="150.0" promptText="Choose..." styleClass="textfield" stylesheets="@dashboardDesign.css" />
-                                    <Label layoutX="26.0" layoutY="65.0" text="Brand:">
+                                    <ComboBox fx:id="rent_carId" layoutX="81.0" layoutY="23.0" onAction="#rentCarCarId" prefHeight="25.0" prefWidth="150.0" promptText="Choose..." styleClass="textfield" stylesheets="@dashboardDesign.css" />
+                                    <Label layoutX="20.0" layoutY="69.0" text="Brand:">
                                        <font>
                                           <Font name="Tahoma" size="14.0" />
                                        </font>
                                     </Label>
-                                    <ComboBox fx:id="rent_brand" layoutX="81.0" layoutY="61.0" onAction="#rentCarBrand" prefWidth="150.0" promptText="Choose..." styleClass="textfield" stylesheets="@dashboardDesign.css" />
-                                    <Label layoutX="26.0" layoutY="108.0" text="Model:">
+                                    <ComboBox fx:id="rent_brand" layoutX="81.0" layoutY="70.0" onAction="#rentCarBrand" prefHeight="25.0" prefWidth="150.0" promptText="Choose..." styleClass="textfield" stylesheets="@dashboardDesign.css" />
+                                    <Label layoutX="20.0" layoutY="110.0" text="Model:">
                                        <font>
                                           <Font name="Tahoma" size="14.0" />
                                        </font>
                                     </Label>
-                                    <ComboBox fx:id="rent_model" layoutX="81.0" layoutY="104.0" onAction="#rentCarModel" prefWidth="150.0" promptText="Choose..." styleClass="textfield" stylesheets="@dashboardDesign.css" />
+                                    <ComboBox fx:id="rent_model" layoutX="81.0" layoutY="120.0" onAction="#rentCarModel" prefHeight="25.0" prefWidth="150.0" promptText="Choose..." styleClass="textfield" stylesheets="@dashboardDesign.css" />
                                     <Label layoutX="250.0" layoutY="26.0" text="First Name:">
                                        <font>
                                           <Font name="Tahoma" size="14.0" />
@@ -336,38 +444,38 @@
                                        </font>
                                     </Label>
                                     <ComboBox fx:id="rent_gender" layoutX="330.0" layoutY="105.0" onAction="#rentCarGender" prefHeight="25.0" prefWidth="161.0" promptText="Choose..." styleClass="textfield" stylesheets="@dashboardDesign.css" />
-                                    <Label layoutX="26.0" layoutY="168.0" text="Date Rented:">
+                                    <Label layoutX="500.0" layoutY="26.0" text="Date Rented:">
                                        <font>
                                           <Font name="Tahoma" size="14.0" />
                                        </font>
                                     </Label>
-                                    <DatePicker fx:id="rent_dateRented" layoutX="119.0" layoutY="165.0" prefHeight="25.0" prefWidth="152.0" styleClass="textfield" stylesheets="@dashboardDesign.css" />
-                                    <Label layoutX="288.0" layoutY="168.0" text="Date Returned:">
+                                    <DatePicker fx:id="rent_dateRented" layoutX="500.0" layoutY="58.0" prefHeight="25.0" prefWidth="152.0" styleClass="textfield" stylesheets="@dashboardDesign.css" />
+                                    <Label layoutX="500.0" layoutY="110.0" text="Date Returned:">
                                        <font>
                                           <Font name="Tahoma" size="14.0" />
                                        </font>
                                     </Label>
-                                    <DatePicker fx:id="rent_dateReturn" layoutX="390.0" layoutY="165.0" onAction="#rentDisplayTotal" prefHeight="25.0" prefWidth="152.0" styleClass="textfield" stylesheets="@dashboardDesign.css" />
+                                    <DatePicker fx:id="rent_dateReturn" layoutX="500.0" layoutY="130.0" onAction="#rentDisplayTotal" prefHeight="25.0" prefWidth="152.0" styleClass="textfield" stylesheets="@dashboardDesign.css" />
                                     <Button fx:id="rentBtn" layoutX="758.0" layoutY="147.0" mnemonicParsing="false" onAction="#rentPay" prefHeight="36.0" prefWidth="97.0" styleClass="add-btn" stylesheets="@dashboardDesign.css" text="Rent" />
-                                    <Label layoutX="670.0" layoutY="36.0" text="Total:">
+                                    <Label layoutX="670.0" layoutY="26.0" text="Total:">
                                        <font>
                                           <Font name="Tahoma" size="17.0" />
                                        </font>
                                     </Label>
-                                    <Label fx:id="rent_total" layoutX="722.0" layoutY="35.0" prefHeight="21.0" prefWidth="133.0" text="Rp 0.0">
+                                    <Label fx:id="rent_total" layoutX="722.0" layoutY="26.0" prefHeight="21.0" prefWidth="133.0" text="Rp 0.0">
                                        <font>
                                           <Font name="Arial" size="20.0" />
                                        </font>
                                     </Label>
-                                    <Label layoutX="649.0" layoutY="71.0" text="Amount:">
+                                    <Label layoutX="658.0" layoutY="71.0" text="Amount:">
                                        <font>
-                                          <Font name="Tahoma" size="17.0" />
+                                          <Font name="Tahoma" size="15.0" />
                                        </font>
                                     </Label>
                                     <TextField fx:id="rent_amount" layoutX="722.0" layoutY="69.0" onAction="#rentAmount" prefHeight="25.0" prefWidth="123.0" styleClass="textfield" stylesheets="@dashboardDesign.css" />
-                                    <Label layoutX="649.0" layoutY="106.0" text="Balance:">
+                                    <Label layoutX="658.0" layoutY="106.0" text="Balance:">
                                        <font>
-                                          <Font name="Tahoma" size="17.0" />
+                                          <Font name="Tahoma" size="15.0" />
                                        </font>
                                     </Label>
                                     <Label fx:id="rent_balance" layoutX="722.0" layoutY="106.0" prefHeight="21.0" prefWidth="133.0" text="Rp 0.0">
@@ -404,6 +512,9 @@
                               </AnchorPane>
                            </children>
                         </AnchorPane>
+                        
+                        
+                        
                      </children>
                   </AnchorPane>
                </center>
