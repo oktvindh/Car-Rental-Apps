@@ -52,73 +52,107 @@
 		<band height="79" splitType="Stretch"/>
 	</title>
 	<pageHeader>
-		<band height="35" splitType="Stretch"/>
+		<band height="35" splitType="Stretch">
+			<staticText>
+				<reportElement uuid="e18850e6-2de4-459d-ad6c-7685e9386140" x="346" y="11" width="137" height="24"/>
+				<textElement>
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[INVOICE REPORT]]></text>
+			</staticText>
+		</band>
 	</pageHeader>
 	<columnHeader>
 		<band height="76" splitType="Stretch">
 			<staticText>
-				<reportElement uuid="40c175f2-6d74-4682-a57b-9925ae1b16de" x="0" y="26" width="41" height="23"/>
-				<textElement/>
+				<reportElement uuid="40c175f2-6d74-4682-a57b-9925ae1b16de" x="0" y="26" width="41" height="35"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
 				<text><![CDATA[Invoice ID]]></text>
 			</staticText>
 			<staticText>
 				<reportElement uuid="57236001-66db-40cf-ae77-3b9e23119e4c" x="41" y="26" width="28" height="35"/>
-				<textElement/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
 				<text><![CDATA[Cust. ID]]></text>
 			</staticText>
 			<staticText>
 				<reportElement uuid="68b78ceb-ed68-4849-82f2-33ee58673e00" x="117" y="26" width="40" height="35"/>
-				<textElement/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
 				<text><![CDATA[Last Name]]></text>
 			</staticText>
 			<staticText>
 				<reportElement uuid="ef10fefd-7a61-4d28-9ec9-47afe27b8a1e" x="157" y="26" width="23" height="35"/>
-				<textElement/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
 				<text><![CDATA[Car ID]]></text>
 			</staticText>
 			<staticText>
 				<reportElement uuid="fa56ebc9-ee46-4035-a19e-cd7c44e3afaa" x="180" y="26" width="49" height="23"/>
-				<textElement/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
 				<text><![CDATA[Brand]]></text>
 			</staticText>
 			<staticText>
 				<reportElement uuid="56d38649-ce81-4764-95ae-ddb2f1d24f68" x="229" y="26" width="54" height="35"/>
-				<textElement/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
 				<text><![CDATA[Model]]></text>
 			</staticText>
 			<staticText>
 				<reportElement uuid="2d565b0d-6703-45ad-91dd-8bd87bda76d3" x="283" y="26" width="100" height="23"/>
-				<textElement/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
 				<text><![CDATA[Date Rented]]></text>
 			</staticText>
 			<staticText>
 				<reportElement uuid="b4950d5b-2fad-4610-a5ea-327ba16d3de9" x="383" y="26" width="100" height="23"/>
-				<textElement/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
 				<text><![CDATA[Date Return]]></text>
 			</staticText>
 			<staticText>
 				<reportElement uuid="0b6c7cf1-6d2e-4005-a29a-d55807d37ba4" x="483" y="26" width="64" height="35"/>
-				<textElement/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
 				<text><![CDATA[Total]]></text>
 			</staticText>
 			<staticText>
 				<reportElement uuid="a91f2541-c68d-4ed5-a38c-d7afecfce994" x="547" y="26" width="79" height="23"/>
-				<textElement/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
 				<text><![CDATA[Amount]]></text>
 			</staticText>
 			<staticText>
 				<reportElement uuid="4a36b717-6ef8-4682-b8c7-8129069543a6" x="626" y="26" width="75" height="23"/>
-				<textElement/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
 				<text><![CDATA[Balance]]></text>
 			</staticText>
 			<staticText>
 				<reportElement uuid="6cbbe3ac-41d1-4562-befd-d460e6401860" x="702" y="26" width="100" height="20"/>
-				<textElement/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
 				<text><![CDATA[Date Invoice]]></text>
 			</staticText>
 			<staticText>
 				<reportElement uuid="449a3274-8b4d-4d77-8750-c09c9435bcd1" x="76" y="26" width="29" height="31"/>
-				<textElement/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
 				<text><![CDATA[First Name]]></text>
 			</staticText>
 		</band>
