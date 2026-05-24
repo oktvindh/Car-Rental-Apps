@@ -1249,7 +1249,8 @@ public class dashboardController implements Initializable {
 
                 invData = new invoiceData(
 
-                        result.getInt("customer_id"),
+                        result.getInt("invoice_id"),
+//                        result.getInt("customer_id"),
                         customerName,
                         carName,
                         result.getDouble("total"),
