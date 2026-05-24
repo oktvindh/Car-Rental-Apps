@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="report name" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="5dc1af96-12c4-467f-9773-46fede488219">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="invoiceId" class="java.lang.Integer">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[SELECT * FROM invoice
+WHERE invoice_id = $P{invoiceId}]]>
+	</queryString>
+	<field name="invoice_id" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="customer_id" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="first_name" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="last_name" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="car_id" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="brand" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="model" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="date_rented" class="java.sql.Date">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="date_return" class="java.sql.Date">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="total" class="java.lang.Double">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="amount" class="java.lang.Double">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="balance" class="java.lang.Double">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="date_invoice" class="java.sql.Date">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="79" splitType="Stretch"/>
+	</title>
+	<pageHeader>
+		<band height="35" splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band height="61" splitType="Stretch"/>
+	</columnHeader>
+	<detail>
+		<band height="203" splitType="Stretch">
+			<textField>
+				<reportElement uuid="87e5f103-4903-4877-bb11-8f10e965df38" x="56" y="10" width="100" height="20"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{invoice_id}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="4e6e6bad-7289-485c-adf7-ec209a1f4ce3" x="156" y="40" width="100" height="20"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{customer_id}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="b0c05ab0-2894-418e-84ae-99030850e808" x="156" y="71" width="100" height="20"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{car_id}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="8898527a-2b34-4b78-acdd-a7caf387117e" x="414" y="60" width="100" height="20"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{total}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="60a424be-3ec1-4d38-bf95-8c60ab0e1815" x="414" y="81" width="100" height="20"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{amount}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="c8ab4cc7-1a32-45c4-a387-7bfd62db0bff" x="414" y="101" width="100" height="20"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{balance}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="6db0b217-f7e1-4007-b437-028f480b28a6" x="390" y="10" width="84" height="20"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{date_invoice}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="4bd7e737-6c61-4591-a266-dfd3cfd6f985" x="103" y="131" width="100" height="20"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{date_rented}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="cb90afc4-9924-4644-bbfa-4dcef156062d" x="103" y="161" width="100" height="20"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{date_return}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement uuid="a3eeb0e6-e627-4b1d-8d96-6ff840814923" x="93" y="40" width="63" height="20"/>
+				<textElement/>
+				<text><![CDATA[Customer ID :]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="6bc75ada-0c99-49f3-9a71-e821fe5f59c2" x="93" y="71" width="63" height="20"/>
+				<textElement/>
+				<text><![CDATA[Car ID :]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="cb135ec0-82a0-4533-817c-faf7223842e4" x="15" y="131" width="88" height="20"/>
+				<textElement/>
+				<text><![CDATA[Date Rented :]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="6aabd707-a98f-43a4-90ea-461c0fec7ebb" x="15" y="161" width="88" height="20"/>
+				<textElement/>
+				<text><![CDATA[Date Return :]]></text>
+			</staticText>
+			<textField>
+				<reportElement uuid="949516a2-52db-4997-993d-9e0ca33a968c" x="156" y="101" width="27" height="20"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{first_name}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="136547dd-7217-4c99-9827-34f215e01bc5" x="183" y="101" width="39" height="20"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{last_name}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement uuid="e156028a-3728-4ef4-b847-c6f57187653a" x="93" y="101" width="63" height="20"/>
+				<textElement/>
+				<text><![CDATA[Name : ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="ff94efdd-6c6c-4a61-ad01-57fcf733c214" x="353" y="60" width="61" height="20"/>
+				<textElement/>
+				<text><![CDATA[Total :]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="1dbf2bce-6990-44bf-ba7b-5b1065bb083d" x="353" y="81" width="61" height="20"/>
+				<textElement/>
+				<text><![CDATA[Amount :]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="257915b6-7837-41cf-9082-8a0e1f37ea64" x="353" y="101" width="61" height="20"/>
+				<textElement/>
+				<text><![CDATA[Balance: ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="21e68e2e-8249-4076-a121-2dabac27d524" x="6" y="10" width="50" height="26"/>
+				<textElement/>
+				<text><![CDATA[Invoice ID]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="8dd9e845-32fb-421e-a02c-bbc57ae31fe0" x="400" y="181" width="100" height="20"/>
+				<textElement/>
+				<text><![CDATA[(Admin)]]></text>
+			</staticText>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="45" splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="54" splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band height="42" splitType="Stretch"/>
+	</summary>
+</jasperReport>

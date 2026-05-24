@@ -106,6 +106,25 @@
                                  </graphic>
                               </Button>
                               
+                            <Button fx:id="invoice_btn"
+                                  layoutX="15.0"
+                                  layoutY="370.0"
+                                  mnemonicParsing="false"
+                                  onAction="#switchForm"
+                                  prefHeight="40.0"
+                                  prefWidth="180.0"
+                                  styleClass="nav-btn"
+                                  stylesheets="@dashboardDesign.css"
+                                  text="Invoice">
+
+                              <graphic>
+                                  <FontAwesomeIcon fill="WHITE"
+                                                   glyphName="FILE_TEXT"
+                                                   size="1.4em"/>
+                              </graphic>
+
+                            </Button>
+                              
                              
                               
                            </children>
@@ -512,6 +531,107 @@
                               </AnchorPane>
                            </children>
                         </AnchorPane>
+                        
+                        <AnchorPane fx:id="invoice_form"
+                                        layoutX="28.0"
+                                        layoutY="48.0"
+                                        prefHeight="555.0"
+                                        prefWidth="896.0"
+                                        visible="false"
+                                        AnchorPane.bottomAnchor="0.0"
+                                        AnchorPane.leftAnchor="0.0"
+                                        AnchorPane.rightAnchor="0.0"
+                                        AnchorPane.topAnchor="0.0">
+
+                                <children>
+
+                                    <AnchorPane layoutX="14.0"
+                                                layoutY="14.0"
+                                                prefHeight="527.0"
+                                                prefWidth="869.0"
+                                                stylesheets="@dashboardDesign.css">
+
+                                        <styleClass>
+                                            <String fx:value="white-bg"/>
+                                            <String fx:value="shadow"/>
+                                        </styleClass>
+
+                                        <children>
+
+                                            <Label layoutX="20.0"
+                                                   layoutY="14.0"
+                                                   text="Invoice History">
+
+                                                <font>
+                                                    <Font name="Arial Bold" size="30.0"/>
+                                                </font>
+
+                                            </Label>
+
+                                            <Button fx:id="invoice_exportBtn"
+                                                    layoutX="710.0"
+                                                    layoutY="20.0"
+                                                    mnemonicParsing="false"
+                                                    onAction="#exportInvoiceReport"
+                                                    prefHeight="35.0"
+                                                    prefWidth="140.0"
+                                                    styleClass="add-btn"
+                                                    stylesheets="@dashboardDesign.css"
+                                                    text="Export PDF"/>
+
+                                            <TableView fx:id="invoice_tableView"
+                                                       layoutX="20.0"
+                                                       layoutY="80.0"
+                                                       prefHeight="420.0"
+                                                       prefWidth="830.0">
+
+                                                <columns>
+
+                                                    <TableColumn fx:id="invoice_col_invoiceId"
+                                                                 prefWidth="90.0"
+                                                                 text="Invoice ID"/>
+
+                                                    <TableColumn fx:id="invoice_col_customer"
+                                                                 prefWidth="170.0"
+                                                                 text="Customer"/>
+
+                                                    <TableColumn fx:id="invoice_col_car"
+                                                                 prefWidth="150.0"
+                                                                 text="Car"/>
+
+                                                    <TableColumn fx:id="invoice_col_total"
+                                                                 prefWidth="120.0"
+                                                                 text="Total"/>
+
+                                                    <TableColumn fx:id="invoice_col_amount"
+                                                                 prefWidth="120.0"
+                                                                 text="Amount"/>
+
+                                                    <TableColumn fx:id="invoice_col_balance"
+                                                                 prefWidth="120.0"
+                                                                 text="Balance"/>
+
+                                                    <TableColumn fx:id="invoice_col_date"
+                                                                 prefWidth="150.0"
+                                                                 text="Date"/>
+                                                    
+                                                    <TableColumn fx:id="invoice_col_action"
+                                                                 prefWidth="120.0"
+                                                                 text="Action"/>
+                                                    
+                                                    
+
+                                                </columns>
+
+                                            </TableView>
+
+                                        </children>
+
+                                    </AnchorPane>
+
+                                </children>
+
+                            </AnchorPane>
                         
                         
                         

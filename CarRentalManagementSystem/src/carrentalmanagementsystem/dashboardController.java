@@ -2,6 +2,7 @@
 package carrentalmanagementsystem;
 
 import java.io.File;
+import java.io.InputStream;
 import java.net.URL;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -54,6 +55,9 @@ import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.JasperReport;
 
 import net.sf.jasperreports.engine.util.JRLoader;
+import javafx.event.ActionEvent;
+import javafx.scene.control.TableCell;
+import javafx.util.Callback;
 
 
 
@@ -86,6 +90,9 @@ public class dashboardController implements Initializable {
 
     @FXML
     private Button rentCar_btn;
+    
+    @FXML
+    private Button invoice_btn;
 
     @FXML
     private Label home_availableCars;
@@ -260,6 +267,36 @@ public class dashboardController implements Initializable {
 
     @FXML
     private TableColumn<carData, String> rent_col_status;
+    
+    @FXML
+    private AnchorPane invoice_form;
+    
+    @FXML
+    private TableView<invoiceData> invoice_tableView;
+
+    @FXML
+    private TableColumn<invoiceData, Integer> invoice_col_invoiceId;
+
+    @FXML
+    private TableColumn<invoiceData, String> invoice_col_customer;
+
+    @FXML
+    private TableColumn<invoiceData, String> invoice_col_car;
+
+    @FXML
+    private TableColumn<invoiceData, Double> invoice_col_total;
+
+    @FXML
+    private TableColumn<invoiceData, Double> invoice_col_amount;
+
+    @FXML
+    private TableColumn<invoiceData, Double> invoice_col_balance;
+
+    @FXML
+    private TableColumn<invoiceData, Date> invoice_col_date;
+    
+    @FXML
+    private TableColumn<invoiceData, String> invoice_col_action;
 
 //    DATABASE TOOLS
     private Connection connect;
@@ -866,6 +903,48 @@ public class dashboardController implements Initializable {
 
                     prepare.executeUpdate();
                     
+                    String invoiceSql = "INSERT INTO invoice "
+                            + "(customer_id, first_name, last_name, car_id, brand, model, "
+                            + "date_rented, date_return, total, amount, balance, date_invoice) "
+                            + "VALUES(?,?,?,?,?,?,?,?,?,?,?,?)";
+
+                    prepare = connect.prepareStatement(invoiceSql);
+
+                    prepare.setInt(1, customerId);
+
+                    prepare.setString(2, rent_firstName.getText());
+
+                    prepare.setString(3, rent_lastName.getText());
+
+                    prepare.setInt(4,
+                            Integer.parseInt(
+                                    rent_carId.getSelectionModel().getSelectedItem().toString()
+                            ));
+
+                    prepare.setString(5,
+                            rent_brand.getSelectionModel().getSelectedItem().toString());
+
+                    prepare.setString(6,
+                            rent_model.getSelectionModel().getSelectedItem().toString());
+
+                    prepare.setDate(7,
+                            java.sql.Date.valueOf(rent_dateRented.getValue()));
+
+                    prepare.setDate(8,
+                            java.sql.Date.valueOf(rent_dateReturn.getValue()));
+
+                    prepare.setDouble(9, totalP);
+
+                    prepare.setDouble(10, amount);
+
+                    prepare.setDouble(11, balance);
+
+                    prepare.setDate(12,
+                            new java.sql.Date(System.currentTimeMillis()));
+
+                    prepare.executeUpdate();
+                    System.out.println("INVOICE BERHASIL DISIMPAN");
+                    
                     // SET THE  STATUS OF CAR TO NOT AVAILABLE 
                     String updateCar = "UPDATE car SET status = 'Not Available' WHERE car_id = '"
                             +rent_carId.getSelectionModel().getSelectedItem()+"'";
@@ -879,11 +958,15 @@ public class dashboardController implements Initializable {
                     alert.showAndWait();
                     
                     rentCarShowListData();
+                    invoiceShowListData();
                     
                     rentClear();
                 } // NOW LETS PROCEED TO DASHBOARD FORM : ) 
             }
-        }catch(Exception e){e.printStackTrace();}
+        }catch(Exception e){
+            System.out.println("ERROR INVOICE:");
+            e.printStackTrace();
+        }
         
     }
     
@@ -1136,7 +1219,154 @@ public class dashboardController implements Initializable {
         rent_tableView.setItems(rentCarList);
     }
     
-        @FXML
+    public ObservableList<invoiceData> invoiceListData() {
+
+        ObservableList<invoiceData> listData
+                = FXCollections.observableArrayList();
+
+        String sql = "SELECT * FROM invoice";
+
+        connect = database.connectDb();
+
+        try {
+
+            prepare = connect.prepareStatement(sql);
+            result = prepare.executeQuery();
+
+            invoiceData invData;
+
+            while(result.next()) {
+
+                String customerName
+                        = result.getString("first_name")
+                        + " "
+                        + result.getString("last_name");
+
+                String carName
+                        = result.getString("brand")
+                        + " "
+                        + result.getString("model");
+
+                invData = new invoiceData(
+
+                        result.getInt("customer_id"),
+                        customerName,
+                        carName,
+                        result.getDouble("total"),
+                        result.getDouble("amount"),
+                        result.getDouble("balance"),
+                        result.getDate("date_invoice")
+
+                );
+
+                listData.add(invData);
+
+            }
+
+        } catch(Exception e) {
+            e.printStackTrace();
+        }
+
+        return listData;
+
+    }
+    
+    private ObservableList<invoiceData> invoiceList;
+    public void invoiceShowListData() {
+
+        invoiceList = invoiceListData();
+
+        invoice_col_invoiceId.setCellValueFactory(
+                new PropertyValueFactory<>("invoiceId"));
+
+        invoice_col_customer.setCellValueFactory(
+                new PropertyValueFactory<>("customer"));
+
+        invoice_col_car.setCellValueFactory(
+                new PropertyValueFactory<>("car"));
+
+        invoice_col_total.setCellValueFactory(
+                new PropertyValueFactory<>("total"));
+
+        invoice_col_amount.setCellValueFactory(
+                new PropertyValueFactory<>("amount"));
+
+        invoice_col_balance.setCellValueFactory(
+                new PropertyValueFactory<>("balance"));
+
+        invoice_col_date.setCellValueFactory(
+                new PropertyValueFactory<>("date"));
+
+        invoice_tableView.setItems(invoiceList);
+
+    }
+    
+    public void addButtonToInvoiceTable() {
+
+        Callback<TableColumn<invoiceData, String>, TableCell<invoiceData, String>> cellFactory
+                = (TableColumn<invoiceData, String> param) -> {
+
+            final TableCell<invoiceData, String> cell = new TableCell<invoiceData, String>() {
+
+                private final Button btn = new Button("Print");
+
+                {
+                    btn.setOnAction((event) -> {
+
+                        invoiceData data = getTableView().getItems().get(getIndex());
+
+                        try {
+
+                            Connection connect = database.connectDb();
+
+                            InputStream reportStream = getClass().getResourceAsStream(
+                                    "/carrentalmanagementsystem/report/invoiceSingleReport.jasper");
+
+                            HashMap<String, Object> map = new HashMap<>();
+
+                            map.put("invoiceId", data.getInvoiceId());
+
+                            JasperPrint jp = JasperFillManager.fillReport(
+                                    reportStream,
+                                    map,
+                                    connect
+                            );
+
+                            JasperViewer.viewReport(jp, false);
+
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+
+                    });
+
+                    btn.setStyle("-fx-background-color:#4CAF50; -fx-text-fill:white;");
+                }
+
+                @Override
+                protected void updateItem(String item, boolean empty) {
+
+                    super.updateItem(item, empty);
+
+                    if (empty) {
+                        setGraphic(null);
+                        setText(null);
+                    } else {
+                        setGraphic(btn);
+                        setText(null);
+                    }
+                }
+
+            };
+
+            return cell;
+        };
+
+        invoice_col_action.setCellFactory(cellFactory);
+
+    }
+    
+    @FXML
     public void printCustomerReport() {
 
         try {
@@ -1220,11 +1450,13 @@ public class dashboardController implements Initializable {
             availableCars_form.setVisible(false);
             customerCars_form.setVisible(false);
             rent_form.setVisible(false);
+            invoice_form.setVisible(false);
 
             home_btn.setStyle("-fx-background-color:linear-gradient(to bottom right, #686f86, #8e9296);");
             availableCars_btn.setStyle("-fx-background-color:transparent");
             customerCars_btn.setStyle("-fx-background-color:transparent");
             rentCar_btn.setStyle("-fx-background-color:transparent");
+            invoice_btn.setStyle("-fx-background-color:transparent");
 
             homeAvailableCars();
             homeTotalIncome();
@@ -1237,11 +1469,13 @@ public class dashboardController implements Initializable {
             availableCars_form.setVisible(true);
             customerCars_form.setVisible(false);
             rent_form.setVisible(false);
+            invoice_form.setVisible(false);
 
             availableCars_btn.setStyle("-fx-background-color:linear-gradient(to bottom right, #686f86, #8e9296);");
             home_btn.setStyle("-fx-background-color:transparent");
             customerCars_btn.setStyle("-fx-background-color:transparent");
             rentCar_btn.setStyle("-fx-background-color:transparent");
+            invoice_btn.setStyle("-fx-background-color:transparent");
 
             // TO UPDATE YOUR TABLEVIEW ONCE YOU CLICK THE AVAILABLE CAR NAV BUTTON
             availableCarShowListData();
@@ -1253,11 +1487,13 @@ public class dashboardController implements Initializable {
             availableCars_form.setVisible(false);
             customerCars_form.setVisible(true);
             rent_form.setVisible(false);
+            invoice_form.setVisible(false);
             
             customerCars_btn.setStyle("-fx-background-color:linear-gradient(to bottom right, #686f86, #8e9296);");
             home_btn.setStyle("-fx-background-color:transparent");
             availableCars_btn.setStyle("-fx-background-color:transparent");
             rentCar_btn.setStyle("-fx-background-color:transparent");
+            invoice_btn.setStyle("-fx-background-color:transparent");
             
             customerShowListData();
             customerSearch();
@@ -1268,11 +1504,13 @@ public class dashboardController implements Initializable {
             availableCars_form.setVisible(false);
             customerCars_form.setVisible(false);
             rent_form.setVisible(true);
+            invoice_form.setVisible(false);
 
             rentCar_btn.setStyle("-fx-background-color:linear-gradient(to bottom right, #686f86, #8e9296);");
             home_btn.setStyle("-fx-background-color:transparent");
             availableCars_btn.setStyle("-fx-background-color:transparent");
             customerCars_btn.setStyle("-fx-background-color:transparent");
+            invoice_btn.setStyle("-fx-background-color:transparent");
 
             rentCarShowListData();
             rentCarCarId();
@@ -1280,6 +1518,40 @@ public class dashboardController implements Initializable {
             rentCarModel();
             rentCarGender();
 
+        } else if(event.getSource() == invoice_btn){
+
+            home_form.setVisible(false);
+            availableCars_form.setVisible(false);
+            customerCars_form.setVisible(false);
+            rent_form.setVisible(false);
+            invoice_form.setVisible(true);
+                    
+            home_btn.setStyle("-fx-background-color:transparent");
+            availableCars_btn.setStyle("-fx-background-color:transparent");
+            customerCars_btn.setStyle("-fx-background-color:transparent");
+            rentCar_btn.setStyle("-fx-background-color:transparent");            
+            invoice_btn.setStyle("-fx-background-color:linear-gradient(to bottom right, #686f86, #8e9296);");
+
+            invoiceShowListData();
+
+        }
+
+    }
+    
+    public void exportInvoiceReport(ActionEvent event) {
+
+        try {
+
+            Connection connect = database.connectDb();
+
+            InputStream reportStream = getClass().getResourceAsStream("/carrentalmanagementsystem/report/invoiceReport.jasper");
+
+            JasperPrint jp = JasperFillManager.fillReport(reportStream, null, connect);
+
+            JasperViewer.viewReport(jp, false);
+
+        } catch (Exception e) {
+            e.printStackTrace();
         }
 
     }
@@ -1317,6 +1589,9 @@ public class dashboardController implements Initializable {
         
         customerShowListData();
         customerSearch();
+        
+        invoiceShowListData();
+        addButtonToInvoiceTable();
 
     }
 
