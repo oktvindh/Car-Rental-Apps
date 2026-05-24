@@ -124,8 +124,23 @@
                               </graphic>
 
                             </Button>
-                              
+                            
+                            <Button fx:id="lateReturn_btn"
+                                layoutX="14.0"
+                                layoutY="405.0"
+                                mnemonicParsing="false"
+                                onAction="#switchForm"
+                                prefHeight="40.0"
+                                prefWidth="170.0"
+                                styleClass="nav-btn"
+                                text="Late Return">
+
+
+                                    <graphic>
+                                        <FontAwesomeIcon fill="WHITE" glyphName="CAR" size="1.3em" />
+                                    </graphic>
                              
+                            </Button> 
                               
                            </children>
                            <styleClass>
@@ -535,7 +550,7 @@
                         <AnchorPane fx:id="invoice_form"
                                         layoutX="28.0"
                                         layoutY="48.0"
-                                        prefHeight="555.0"
+                                        prefHeight="558.0"
                                         prefWidth="896.0"
                                         visible="false"
                                         AnchorPane.bottomAnchor="0.0"
@@ -633,7 +648,183 @@
 
                             </AnchorPane>
                         
-                        
+                        <AnchorPane fx:id="lateReturn_form"
+                                        layoutX="28.0"
+                                        layoutY="48.0"
+                                        prefHeight="558.0"
+                                        prefWidth="896.0"
+                                        visible="false"
+                                        AnchorPane.bottomAnchor="0.0"
+                                        AnchorPane.leftAnchor="0.0"
+                                        AnchorPane.rightAnchor="0.0"
+                                        AnchorPane.topAnchor="0.0">
+
+                                <children>
+
+                                    <AnchorPane layoutX="14.0"
+                                                layoutY="14.0"
+                                                prefHeight="208.0"
+                                                prefWidth="869.0"
+                                                stylesheets="@dashboardDesign.css">
+
+                                        <styleClass>
+                                            <String fx:value="white-bg"/>
+                                            <String fx:value="shadow"/>
+                                        </styleClass>
+
+                                        <children>
+
+                                            <!-- KOLOM KIRI -->
+
+                                            <Label layoutX="20.0"
+                                                   layoutY="28.0"
+                                                   text="Customer ID:">
+                                                <font>
+                                                    <Font name="Tahoma" size="14.0"/>
+                                                </font>
+                                            </Label>
+
+                                            <TextField fx:id="late_customerId"
+                                                       layoutX="120.0"
+                                                       layoutY="23.0"
+                                                       prefHeight="25.0"
+                                                       prefWidth="150.0"
+                                                       onAction="#lateCustomerSelect"/>
+
+                                            <Label layoutX="20.0"
+                                                   layoutY="70.0"
+                                                   text="Brand:">
+                                                <font>
+                                                    <Font name="Tahoma" size="14.0"/>
+                                                </font>
+                                            </Label>
+
+                                            <TextField fx:id="late_brand"
+                                                       editable="false"
+                                                       layoutX="120.0"
+                                                       layoutY="65.0"
+                                                       prefHeight="25.0"
+                                                       prefWidth="150.0"/>
+
+                                            <Label layoutX="20.0"
+                                                   layoutY="110.0"
+                                                   text="Model:">
+                                                <font>
+                                                    <Font name="Tahoma" size="14.0"/>
+                                                </font>
+                                            </Label>
+
+                                            <TextField fx:id="late_model"
+                                                       editable="false"
+                                                       layoutX="120.0"
+                                                       layoutY="105.0"
+                                                       prefHeight="25.0"
+                                                       prefWidth="150.0"/>
+
+                                            <!-- KOLOM TENGAH -->
+
+                                            <Label layoutX="320.0"
+                                                   layoutY="28.0"
+                                                   text="Late Days:">
+                                                <font>
+                                                    <Font name="Tahoma" size="14.0"/>
+                                                </font>
+                                            </Label>
+
+                                            <TextField fx:id="late_days"
+                                                       layoutX="420.0"
+                                                       layoutY="23.0"
+                                                       prefHeight="25.0"
+                                                       prefWidth="150.0"
+                                                       onKeyReleased="#calculateFine"/>
+
+                                            <Label layoutX="320.0"
+                                                   layoutY="70.0"
+                                                   text="Fine:">
+                                                <font>
+                                                    <Font name="Tahoma" size="14.0"/>
+                                                </font>
+                                            </Label>
+
+                                            <Label fx:id="late_fine"
+                                                   layoutX="420.0"
+                                                   layoutY="70.0"
+                                                   prefHeight="25.0"
+                                                   prefWidth="150.0"
+                                                   text="Rp 0">
+                                                <font>
+                                                    <Font name="Arial" size="16.0"/>
+                                                </font>
+                                            </Label>
+
+                                            <Label layoutX="320.0"
+                                                   layoutY="110.0"
+                                                   text="Amount:">
+                                                <font>
+                                                    <Font name="Tahoma" size="14.0"/>
+                                                </font>
+                                            </Label>
+
+                                            <TextField fx:id="late_amount"
+                                                       layoutX="420.0"
+                                                       layoutY="105.0"
+                                                       prefHeight="25.0"
+                                                       prefWidth="150.0"
+                                                       onKeyReleased="#calculateLateBalance"/>
+
+                                            <!-- KOLOM KANAN -->
+
+                                            <Label layoutX="620.0"
+                                                   layoutY="28.0"
+                                                   text="Balance:">
+                                                <font>
+                                                    <Font name="Tahoma" size="15.0"/>
+                                                </font>
+                                            </Label>
+
+                                            <Label fx:id="late_balance"
+                                                   layoutX="720.0"
+                                                   layoutY="28.0"
+                                                   prefHeight="25.0"
+                                                   prefWidth="120.0"
+                                                   text="Rp 0">
+                                                <font>
+                                                    <Font name="Arial" size="18.0"/>
+                                                </font>
+                                            </Label>
+
+                                            <Label layoutX="620.0"
+                                                   layoutY="70.0"
+                                                   text="Date Returned:">
+                                                <font>
+                                                    <Font name="Tahoma" size="14.0"/>
+                                                </font>
+                                            </Label>
+
+                                            <DatePicker fx:id="late_dateReturned"
+                                                        layoutX="720.0"
+                                                        layoutY="65.0"
+                                                        prefHeight="25.0"
+                                                        prefWidth="120.0"/>
+
+                                            <Button fx:id="late_saveBtn"
+                                                    layoutX="720.0"
+                                                    layoutY="120.0"
+                                                    mnemonicParsing="false"
+                                                    onAction="#saveLateReturn"
+                                                    prefHeight="36.0"
+                                                    prefWidth="120.0"
+                                                    styleClass="add-btn"
+                                                    stylesheets="@dashboardDesign.css"
+                                                    text="Save"/>
+
+                                        </children>
+
+                                    </AnchorPane>
+
+                                </children>
+
+                            </AnchorPane>
                         
                      </children>
                   </AnchorPane>

@@ -93,6 +93,9 @@ public class dashboardController implements Initializable {
     
     @FXML
     private Button invoice_btn;
+    
+    @FXML
+    private Button lateReturn_btn;
 
     @FXML
     private Label home_availableCars;
@@ -297,6 +300,66 @@ public class dashboardController implements Initializable {
     
     @FXML
     private TableColumn<invoiceData, String> invoice_col_action;
+    
+    @FXML
+    private AnchorPane lateReturn_form;
+
+    @FXML
+    private TextField late_customerId;
+
+    @FXML
+    private TextField late_brand;
+
+    @FXML
+    private TextField late_model;
+
+    @FXML
+    private TextField late_days;
+    
+    @FXML
+    private Label late_total;
+
+    @FXML
+    private Label late_fine;
+
+    @FXML
+    private TextField late_amount;
+
+    @FXML
+    private Label late_balance;
+
+    @FXML
+    private DatePicker late_dateReturned;
+
+    @FXML
+    private Button late_saveBtn;
+    
+//    @FXML
+//    private TableView<lateReturnData> late_tableView;
+//
+//    @FXML
+//    private TableColumn<lateReturnData, Integer> late_col_id;
+//
+//    @FXML
+//    private TableColumn<lateReturnData, String> late_col_customer;
+//
+//    @FXML
+//    private TableColumn<lateReturnData, String> late_col_car;
+//
+//    @FXML
+//    private TableColumn<lateReturnData, Integer> late_col_days;
+//
+//    @FXML
+//    private TableColumn<lateReturnData, Double> late_col_fine;
+//
+//    @FXML
+//    private TableColumn<lateReturnData, Double> late_col_amount;
+//
+//    @FXML
+//    private TableColumn<lateReturnData, Double> late_col_balance;
+//
+//    @FXML
+//    private TableColumn<lateReturnData, Date> late_col_date;
 
 //    DATABASE TOOLS
     private Connection connect;
@@ -1367,6 +1430,143 @@ public class dashboardController implements Initializable {
 
     }
     
+    public void lateCustomerSelect(){
+
+        String sql = "SELECT * FROM customer WHERE customer_id = ?";
+
+        connect = database.connectDb();
+
+        try{
+
+            prepare = connect.prepareStatement(sql);
+
+            prepare.setString(1, late_customerId.getText());
+
+            result = prepare.executeQuery();
+
+            if(result.next()){
+
+                late_brand.setText(result.getString("brand"));
+                late_model.setText(result.getString("model"));
+
+            }
+
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+
+    }
+    
+    private double fineTotal = 0;
+    private double lateAmount = 0;
+    private double lateBalance = 0;
+
+    public void calculateFine() {
+
+        try {
+
+            if (late_days.getText() == null || late_days.getText().isEmpty()) {
+                late_fine.setText("Rp 0");
+                return;
+            }
+
+            int days = Integer.parseInt(late_days.getText());
+
+            double fine = days * 50000;
+
+            late_fine.setText("Rp " + fine);
+
+        } catch (Exception e) {
+
+            late_fine.setText("Rp 0");
+
+            System.out.println("Error calculate fine: " + e);
+
+        }
+    }
+    
+    public void calculateLateBalance() {
+
+        try {
+
+            // ambil fine
+            String fineText = late_fine.getText().replace("Rp", "").trim();
+
+            double fine = Double.parseDouble(fineText);
+
+            // ambil amount
+            double amount = Double.parseDouble(late_amount.getText());
+
+            // hitung kembalian
+            double balance = amount - fine;
+
+            late_balance.setText("Rp " + balance);
+
+        } catch (Exception e) {
+
+            late_balance.setText("Rp 0");
+
+            System.out.println("Error calculate balance: " + e);
+
+        }
+    }
+    
+    @FXML
+    public void saveLateReturn(ActionEvent event) {
+
+        String sql = "INSERT INTO late_return "
+                + "(customer_id, brand, model, late_days, fine, amount, balance, date_returned) "
+                + "VALUES(?,?,?,?,?,?,?,?)";
+
+        connect = database.connectDb();
+
+        try {
+
+            Alert alert;
+
+            if (late_customerId.getText().isEmpty()
+                    || late_brand.getText().isEmpty()
+                    || late_model.getText().isEmpty()
+                    || late_days.getText().isEmpty()
+                    || late_amount.getText().isEmpty()
+                    || late_dateReturned.getValue() == null) {
+
+                alert = new Alert(AlertType.ERROR);
+                alert.setTitle("Error Message");
+                alert.setHeaderText(null);
+                alert.setContentText("Please fill all blank fields");
+                alert.showAndWait();
+
+            } else {
+
+                prepare = connect.prepareStatement(sql);
+
+                prepare.setString(1, late_customerId.getText());
+                prepare.setString(2, late_brand.getText());
+                prepare.setString(3, late_model.getText());
+                prepare.setInt(4, Integer.parseInt(late_days.getText()));
+                prepare.setDouble(5, fineTotal);
+                prepare.setDouble(6, lateAmount);
+                prepare.setDouble(7, lateBalance);
+                prepare.setDate(8,
+                        java.sql.Date.valueOf(late_dateReturned.getValue()));
+
+                prepare.executeUpdate();
+
+                alert = new Alert(AlertType.INFORMATION);
+                alert.setTitle("Information Message");
+                alert.setHeaderText(null);
+                alert.setContentText("Late return saved successfully!");
+                alert.showAndWait();
+
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }
+
     @FXML
     public void printCustomerReport() {
 
@@ -1452,12 +1652,14 @@ public class dashboardController implements Initializable {
             customerCars_form.setVisible(false);
             rent_form.setVisible(false);
             invoice_form.setVisible(false);
+            lateReturn_form.setVisible(false);
 
             home_btn.setStyle("-fx-background-color:linear-gradient(to bottom right, #686f86, #8e9296);");
             availableCars_btn.setStyle("-fx-background-color:transparent");
             customerCars_btn.setStyle("-fx-background-color:transparent");
             rentCar_btn.setStyle("-fx-background-color:transparent");
             invoice_btn.setStyle("-fx-background-color:transparent");
+            lateReturn_btn.setStyle("-fx-background-color:transparent");
 
             homeAvailableCars();
             homeTotalIncome();
@@ -1471,12 +1673,14 @@ public class dashboardController implements Initializable {
             customerCars_form.setVisible(false);
             rent_form.setVisible(false);
             invoice_form.setVisible(false);
+            lateReturn_form.setVisible(false);
 
             availableCars_btn.setStyle("-fx-background-color:linear-gradient(to bottom right, #686f86, #8e9296);");
             home_btn.setStyle("-fx-background-color:transparent");
             customerCars_btn.setStyle("-fx-background-color:transparent");
             rentCar_btn.setStyle("-fx-background-color:transparent");
             invoice_btn.setStyle("-fx-background-color:transparent");
+            lateReturn_btn.setStyle("-fx-background-color:transparent");
 
             // TO UPDATE YOUR TABLEVIEW ONCE YOU CLICK THE AVAILABLE CAR NAV BUTTON
             availableCarShowListData();
@@ -1489,12 +1693,14 @@ public class dashboardController implements Initializable {
             customerCars_form.setVisible(true);
             rent_form.setVisible(false);
             invoice_form.setVisible(false);
+            lateReturn_form.setVisible(false);
             
             customerCars_btn.setStyle("-fx-background-color:linear-gradient(to bottom right, #686f86, #8e9296);");
             home_btn.setStyle("-fx-background-color:transparent");
             availableCars_btn.setStyle("-fx-background-color:transparent");
             rentCar_btn.setStyle("-fx-background-color:transparent");
             invoice_btn.setStyle("-fx-background-color:transparent");
+            lateReturn_btn.setStyle("-fx-background-color:transparent");
             
             customerShowListData();
             customerSearch();
@@ -1506,12 +1712,14 @@ public class dashboardController implements Initializable {
             customerCars_form.setVisible(false);
             rent_form.setVisible(true);
             invoice_form.setVisible(false);
+            lateReturn_form.setVisible(false);
 
             rentCar_btn.setStyle("-fx-background-color:linear-gradient(to bottom right, #686f86, #8e9296);");
             home_btn.setStyle("-fx-background-color:transparent");
             availableCars_btn.setStyle("-fx-background-color:transparent");
             customerCars_btn.setStyle("-fx-background-color:transparent");
             invoice_btn.setStyle("-fx-background-color:transparent");
+            lateReturn_btn.setStyle("-fx-background-color:transparent");
 
             rentCarShowListData();
             rentCarCarId();
@@ -1526,14 +1734,33 @@ public class dashboardController implements Initializable {
             customerCars_form.setVisible(false);
             rent_form.setVisible(false);
             invoice_form.setVisible(true);
-                    
+            lateReturn_form.setVisible(false);
+              
+            invoice_btn.setStyle("-fx-background-color:linear-gradient(to bottom right, #686f86, #8e9296);");
             home_btn.setStyle("-fx-background-color:transparent");
             availableCars_btn.setStyle("-fx-background-color:transparent");
             customerCars_btn.setStyle("-fx-background-color:transparent");
             rentCar_btn.setStyle("-fx-background-color:transparent");            
-            invoice_btn.setStyle("-fx-background-color:linear-gradient(to bottom right, #686f86, #8e9296);");
+            lateReturn_btn.setStyle("-fx-background-color:transparent");
 
             invoiceShowListData();
+
+        } else if(event.getSource() == lateReturn_btn){
+
+            home_form.setVisible(false);
+            availableCars_form.setVisible(false);
+            customerCars_form.setVisible(false);
+            rent_form.setVisible(false);
+            invoice_form.setVisible(false);
+            lateReturn_form.setVisible(true);
+            
+            lateReturn_btn.setStyle("-fx-background-color:linear-gradient(to bottom right, #686f86, #8e9296);");
+            home_btn.setStyle("-fx-background-color:transparent");
+            availableCars_btn.setStyle("-fx-background-color:transparent");
+            customerCars_btn.setStyle("-fx-background-color:transparent");
+            rentCar_btn.setStyle("-fx-background-color:transparent");            
+            invoice_btn.setStyle("-fx-background-color:transparent");
+            
 
         }
 
