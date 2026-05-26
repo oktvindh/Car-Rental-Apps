@@ -334,32 +334,32 @@ public class dashboardController implements Initializable {
     @FXML
     private Button late_saveBtn;
     
-//    @FXML
-//    private TableView<lateReturnData> late_tableView;
-//
-//    @FXML
-//    private TableColumn<lateReturnData, Integer> late_col_id;
-//
-//    @FXML
-//    private TableColumn<lateReturnData, String> late_col_customer;
-//
-//    @FXML
-//    private TableColumn<lateReturnData, String> late_col_car;
-//
-//    @FXML
-//    private TableColumn<lateReturnData, Integer> late_col_days;
-//
-//    @FXML
-//    private TableColumn<lateReturnData, Double> late_col_fine;
-//
-//    @FXML
-//    private TableColumn<lateReturnData, Double> late_col_amount;
-//
-//    @FXML
-//    private TableColumn<lateReturnData, Double> late_col_balance;
-//
-//    @FXML
-//    private TableColumn<lateReturnData, Date> late_col_date;
+    @FXML
+    private TableView<LateReturnData> late_tableView;
+
+    @FXML
+    private TableColumn<LateReturnData, Integer> late_col_customerId;
+
+    @FXML
+    private TableColumn<LateReturnData, String> late_col_brand;
+
+    @FXML
+    private TableColumn<LateReturnData, String> late_col_model;
+
+    @FXML
+    private TableColumn<LateReturnData, Integer> late_col_days;
+
+    @FXML
+    private TableColumn<LateReturnData, Double> late_col_fine;
+
+    @FXML
+    private TableColumn<LateReturnData, Double> late_col_amount;
+
+    @FXML
+    private TableColumn<LateReturnData, Double> late_col_balance;
+
+    @FXML
+    private TableColumn<LateReturnData, Date> late_col_dateReturned;
 
 //    DATABASE TOOLS
     private Connection connect;
@@ -1466,17 +1466,21 @@ public class dashboardController implements Initializable {
         try {
 
             if (late_days.getText() == null || late_days.getText().isEmpty()) {
+
+                fineTotal = 0;
                 late_fine.setText("Rp 0");
                 return;
             }
 
             int days = Integer.parseInt(late_days.getText());
 
-            double fine = days * 50000;
+            fineTotal = days * 50000;
 
-            late_fine.setText("Rp " + fine);
+            late_fine.setText("Rp " + fineTotal);
 
         } catch (Exception e) {
+
+            fineTotal = 0;
 
             late_fine.setText("Rp 0");
 
@@ -1489,20 +1493,19 @@ public class dashboardController implements Initializable {
 
         try {
 
-            // ambil fine
-            String fineText = late_fine.getText().replace("Rp", "").trim();
+            // ambil amount dari input
+            lateAmount = Double.parseDouble(late_amount.getText());
 
-            double fine = Double.parseDouble(fineText);
+            // hitung balance
+            lateBalance = lateAmount - fineTotal;
 
-            // ambil amount
-            double amount = Double.parseDouble(late_amount.getText());
-
-            // hitung kembalian
-            double balance = amount - fine;
-
-            late_balance.setText("Rp " + balance);
+            // tampilkan
+            late_balance.setText("Rp " + lateBalance);
 
         } catch (Exception e) {
+
+            lateAmount = 0;
+            lateBalance = 0;
 
             late_balance.setText("Rp 0");
 
@@ -1558,6 +1561,7 @@ public class dashboardController implements Initializable {
                 alert.setHeaderText(null);
                 alert.setContentText("Late return saved successfully!");
                 alert.showAndWait();
+                lateReturnShowData();
 
             }
 
@@ -1565,6 +1569,99 @@ public class dashboardController implements Initializable {
             e.printStackTrace();
         }
 
+    }
+    
+    public ObservableList<LateReturnData> lateReturnListData() {
+
+        ObservableList<LateReturnData> listData = FXCollections.observableArrayList();
+
+        String sql = "SELECT * FROM late_return";
+
+        connect = database.connectDb();
+
+        try {
+
+            prepare = connect.prepareStatement(sql);
+            result = prepare.executeQuery();
+
+            LateReturnData data;
+
+            while (result.next()) {
+
+                data = new LateReturnData(
+                        result.getInt("customer_id"),
+                        result.getString("brand"),
+                        result.getString("model"),
+                        result.getInt("late_days"),
+                        result.getDouble("fine"),
+                        result.getDouble("amount"),
+                        result.getDouble("balance"),
+                        result.getDate("date_returned")
+                );
+
+                listData.add(data);
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return listData;
+    }
+    
+    public void lateReturnShowData() {
+
+        ObservableList<LateReturnData> listData = lateReturnListData();
+
+        late_col_customerId.setCellValueFactory(
+                new PropertyValueFactory<>("customerId"));
+
+        late_col_brand.setCellValueFactory(
+                new PropertyValueFactory<>("brand"));
+
+        late_col_model.setCellValueFactory(
+                new PropertyValueFactory<>("model"));
+
+        late_col_days.setCellValueFactory(
+                new PropertyValueFactory<>("lateDays"));
+
+        late_col_fine.setCellValueFactory(
+                new PropertyValueFactory<>("fine"));
+
+        late_col_amount.setCellValueFactory(
+                new PropertyValueFactory<>("amount"));
+
+        late_col_balance.setCellValueFactory(
+                new PropertyValueFactory<>("balance"));
+
+        late_col_dateReturned.setCellValueFactory(
+                new PropertyValueFactory<>("dateReturned"));
+
+        late_tableView.setItems(listData);
+    }
+
+    @FXML
+    public void printLateReturnReport() {
+
+        try {
+
+            Connection connect = database.connectDb();
+
+            JasperReport jr = (JasperReport) JRLoader.loadObject(
+                getClass().getResource("/carrentalmanagementsystem/report/lateReturnReport.jasper")
+            );
+
+            JasperPrint jp = JasperFillManager.fillReport(
+                jr,
+                new HashMap<>(),
+                connect
+            );
+
+            JasperViewer.viewReport(jp, false);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @FXML
@@ -1820,6 +1917,8 @@ public class dashboardController implements Initializable {
         
         invoiceShowListData();
         addButtonToInvoiceTable();
+        
+        lateReturnShowData();
 
     }
 
