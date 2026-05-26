@@ -57,42 +57,58 @@ FROM
 		<band height="61" splitType="Stretch">
 			<staticText>
 				<reportElement uuid="fac33b40-3002-4317-8bfb-eb1759c2664f" x="73" y="41" width="61" height="20"/>
-				<textElement/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
 				<text><![CDATA[Customer ID]]></text>
 			</staticText>
 			<staticText>
 				<reportElement uuid="da9d9080-b437-4fd0-874e-de31bbe279f2" x="150" y="41" width="100" height="20"/>
-				<textElement/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
 				<text><![CDATA[Brand]]></text>
 			</staticText>
 			<staticText>
 				<reportElement uuid="5eeda0d3-ea74-4da1-be2e-3fb9f4454511" x="273" y="41" width="100" height="20"/>
-				<textElement/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
 				<text><![CDATA[Model]]></text>
 			</staticText>
 			<staticText>
 				<reportElement uuid="8fe2ff89-b0a9-44a8-9756-ed3b64d69c43" x="386" y="41" width="100" height="20"/>
-				<textElement/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
 				<text><![CDATA[Late Days]]></text>
 			</staticText>
 			<staticText>
 				<reportElement uuid="f3a872cb-97ff-4267-849f-f2a6be3eb711" x="502" y="41" width="100" height="20"/>
-				<textElement/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
 				<text><![CDATA[Fine]]></text>
 			</staticText>
 			<staticText>
 				<reportElement uuid="b820a353-5476-483c-af83-9463b204b7e6" x="602" y="41" width="100" height="20"/>
-				<textElement/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
 				<text><![CDATA[Amount]]></text>
 			</staticText>
 			<staticText>
 				<reportElement uuid="1acb35dc-c791-4985-b473-f3192c6bb4cb" x="702" y="41" width="100" height="20"/>
-				<textElement/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
 				<text><![CDATA[Balance]]></text>
 			</staticText>
 			<staticText>
 				<reportElement uuid="fecf28fc-18aa-47cc-8c2f-6326c17b749a" x="0" y="27" width="56" height="34"/>
-				<textElement/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
 				<text><![CDATA[Late Return ID]]></text>
 			</staticText>
 		</band>
